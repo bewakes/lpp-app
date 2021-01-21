@@ -161,23 +161,6 @@ solveLPP = do
        then return (status, soln, z)
        else solveLPP
 
-
--- DATA --
-z = [7.7, 10.4, 5.2, 12.3]
-d = ["x1", "x2", "x3", "x4"]
-cs = [
-        Constraint [1,1,1,1] Lte 120000
-      , Constraint [0, 0, 1, 1] Lte 40000
-      , Constraint [1, 0, 1, 0] Lte 80000
-      , Constraint [0, 1, 0, 1] Lte 50000
-     ]
-sRestrictions = map (const Positive) z -- all positive
-zAction = Minimize
-
-
-lpp :: LPP
-lpp = LPP d zAction z cs sRestrictions
-
 takeWhile' :: (a -> Bool) -> [a] -> [a]
 takeWhile' _ [] = []
 takeWhile' p (x:xs) = x: if p x then takeWhile' p xs else []
