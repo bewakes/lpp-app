@@ -1,0 +1,36 @@
+Arguments: 
+  /usr/bin/node /usr/bin/yarn init
+
+PATH: 
+  /home/bibek/.pyenv/shims:/home/bibek/.nix-profile/bin:/home/bibek/.serverless/bin:/home/bibek/.pyenv/bin:/home/bibek/.local/bin:/home/bibek/.pyenv/shims:/home/bibek/.nix-profile/bin:/home/bibek/.serverless/bin:/home/bibek/.pyenv/bin:/home/bibek/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/bin:/opt/android-sdk/emulator:/opt/android-sdk/tools:/opt/android-sdk/tools/bin:/usr/lib/jvm/default/bin:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl:/home/bibek/practices/shell/bin/:/home/bibek/.local/bin:/home/bibek/custom_bins/:/home/bibek/.yarn/bin/:/usr/bin/:/home/bibek/.gem/ruby/2.5.0/bin:/home/bibek/.fzf/bin:/home/bibek/practices/shell/bin/:/home/bibek/.local/bin:/home/bibek/custom_bins/:/home/bibek/.yarn/bin/:/usr/bin/:/home/bibek/.gem/ruby/2.5.0/bin
+
+Yarn version: 
+  1.7.0
+
+Node version: 
+  15.6.0
+
+Platform: 
+  linux x64
+
+Trace: 
+  Error: canceled
+      at Interface.<anonymous> (/usr/lib/node_modules/yarn/lib/cli.js:131036:13)
+      at Interface.emit (node:events:379:20)
+      at Interface._ttyWrite (node:readline:910:16)
+      at ReadStream.onkeypress (node:readline:235:10)
+      at ReadStream.emit (node:events:379:20)
+      at emitKeys (node:internal/readline/utils:358:14)
+      at emitKeys.next (<anonymous>)
+      at ReadStream.onData (node:readline:1179:36)
+      at ReadStream.emit (node:events:379:20)
+      at addChunk (node:internal/streams/readable:313:12)
+
+npm manifest: 
+  No manifest
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile

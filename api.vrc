@@ -1,0 +1,17 @@
+POST http://localhost:4000/
+
+Content-Type: appliaction/json
+
+
+{
+    "decisionVariables": ["x1", "x2", "x3", "x4"],
+    "objectiveAction": "Maximize",
+    "objectiveFunction": [7.7, 10.4, 5.2, 12.3],
+    "constraints": [
+        {"lhs": [1, 1, 1, 1], "rhs": 120000, "sign": "Lte"},
+        {"lhs": [0, 0, 1, 1], "rhs": 40000 , "sign": "Lte"},
+        {"lhs": [1, 0, 1, 0], "rhs": 80000 , "sign": "Lte"},
+        {"lhs": [0, 1, 0, 1], "rhs": 50000 , "sign": "Lte"}
+    ],
+    "signRestrictions": ["Positive", "Positive", "Positive", "Positive"]
+}
