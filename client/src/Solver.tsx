@@ -13,8 +13,14 @@ interface Constraint {
 
 type Action = "Maximize" | "Minimize";
 
+const nCopiesOf = (n: number, a: any) => {
+    const arr = [];
+    for(let x=0;x<n;x++) arr.push(a);
+    return arr;
+};
+
 const Solver: React.FC<SolverProps> = () => {
-    const [numVars, setNumVars] = React.useState(2);
+    const [numVars, setNumVars] = React.useState("2");
     const [action, setAction] = React.useState<Action>("Maximize");
     const [coefficients, setCoefficients] = React.useState(["1", "1"]);
     const [constraints, setConstraints] = React.useState<Constraint[]>([]);
@@ -22,11 +28,11 @@ const Solver: React.FC<SolverProps> = () => {
     const [solution, setSolution] = React.useState<Solution | undefined>();
 
     const prepareData = () => ({
-        decisionVariables: [...new Array(numVars)].map((_, i) => 'x'+(i+1)),
+        decisionVariables: [...new Array(parseInt(numVars))].map((_, i) => 'x'+(i+1)),
         objectiveAction: action,
         objectiveFunction: coefficients.map(parseFloat),
         constraints: constraints.map(c => ({...c, lhs: c.lhs.map(parseFloat), rhs: parseFloat(c.rhs)})),
-        signRestrictions: [...new Array(numVars)].map(_ => "Positive")
+        signRestrictions: nCopiesOf(parseInt(numVars), "Positive")
     });
 
     const requestSolve = () => {
@@ -49,16 +55,21 @@ const Solver: React.FC<SolverProps> = () => {
     };
 
     React.useEffect(() => {
-        const coeffsDiff = numVars - coefficients.length;
+        const parsed = parseInt(numVars);
+        if(isNaN(parsed)) return;
+        console.warn({parsed});
+
+        const coeffsDiff = parsed - coefficients.length;
         if (coeffsDiff == 0) {
+            console.warn('coeffssame');
             return;
         }
         if (coeffsDiff < 0) {
-            setCoefficients(coefficients.slice(0, numVars));
-            setConstraints(constraints.map(c => ({...c, lhs: c.lhs.slice(0, numVars)})));
+            setCoefficients(coefficients.slice(0, parsed));
+            setConstraints(constraints.map(c => ({...c, lhs: c.lhs.slice(0, parsed)})));
         } else {
-            setCoefficients([...coefficients, ...[new Array(coeffsDiff)].map(_ => "0")]);
-            setConstraints(constraints.map(c => ({...c, lhs: [...c.lhs, ...[new Array(coeffsDiff)].map(_=> "0")] })));
+            setCoefficients([...coefficients, ...nCopiesOf(coeffsDiff, "0")]);
+            setConstraints(constraints.map(c => ({...c, lhs: [...c.lhs, ...nCopiesOf(coeffsDiff, "0")] })));
         }
     }, [numVars]);
 
@@ -67,7 +78,7 @@ const Solver: React.FC<SolverProps> = () => {
     };
 
     const addConstraint = () => {
-        setConstraints([...constraints, {lhs: [...new Array(numVars)].map(_=>"1"), sign: 'Lte', rhs: "0"}]);
+        setConstraints([...constraints, {lhs: nCopiesOf(parseInt(numVars), "1"), sign: 'Lte', rhs: "0"}]);
     };
 
     const setNthConstraintJthCoefficient = (n, j) => ev => {
@@ -94,6 +105,10 @@ const Solver: React.FC<SolverProps> = () => {
         setConstraints(newConstraints);
     };
 
+    const setVariableNumber = ev => {
+        setNumVars(ev.currentTarget.value);
+    };
+
     return (
         <div id="solver">
             <table>
@@ -111,7 +126,7 @@ const Solver: React.FC<SolverProps> = () => {
                             <input
                                 type="number"
                                 value={numVars}
-                                onChange={ev => setNumVars(parseInt(ev.currentTarget.value))}
+                                onChange={setVariableNumber}
                                 disabled={pending}
                             />
                         </td>
@@ -174,7 +189,7 @@ const Solver: React.FC<SolverProps> = () => {
                     </tr>
                 </tbody>
             </table>
-            { solution && <SolutionView solution={solution} /> }
+            { !pending && solution && <SolutionView solution={solution} /> }
         </div>
     );
 };
